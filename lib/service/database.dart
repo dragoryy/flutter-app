@@ -3,7 +3,7 @@ import 'package:first/service/database_api.dart';
 
 import '../models/student.dart';
 
-class DatabaseMethods {
+class DatabaseMethods implements DatabaseApi {
   @override
   Future addStudent(Student studentInfo, String id) async {
     return await FirebaseFirestore.instance

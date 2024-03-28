@@ -253,4 +253,210 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future EditStudent(String id) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        "Изменить студента",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 29.0,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(width: 20.0),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            ),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  const Text(
+                    "Имя",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: firstNameController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 18.0,
+                  ),
+                  const Text(
+                    "Фамилия",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: lastNameController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 18.0,
+                  ),
+                  const Text(
+                    "Отчество",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: middleNameController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 18.0,
+                  ),
+                  const Text(
+                    "Дата рождения",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: birthDateController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: birthDateController.text.isEmpty
+                              ? 'Нажмите для выбора даты'
+                              : birthDateController.text),
+                      onTap: () => onTapFunction(
+                          context: context, date: birthDateController.text),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  const Text(
+                    "Любимый предмет",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: favSubjectController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            Student studentInfo = Student(
+                                firstNameController.text,
+                                lastNameController.text,
+                                middleNameController.text,
+                                birthDateController.text,
+                                id,
+                                favSubjectController.text);
+                            await DatabaseMethods()
+                                .updateStudents(id, studentInfo)
+                                .then((value) {
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(
+                                  msg: "Студент успешно изменен!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            });
+                          },
+                          child: const Text("Изменить")),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ));
 }
