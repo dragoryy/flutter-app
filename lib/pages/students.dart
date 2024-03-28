@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'dart:developer';
 
+import '../models/student.dart';
 
 class Students extends StatefulWidget {
   const Students({super.key});
@@ -190,14 +191,13 @@ class _StudentsState extends State<Students> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           String id = randomAlphaNumeric(10);
-                          Map<String,dynamic> studentInfo = {
-                              "firstName": firstNameController.text,
-                              "lastName": lastNameController.text,
-                              "middleName": middleNameController.text,
-                              "birthDate": birthDateController.text,
-                              "id": id,
-                              "favSubject":favSubjectController.text)
-                          }
+                          Student studentInfo = Student(
+                              firstNameController.text,
+                              lastNameController.text,
+                              middleNameController.text,
+                              birthDateController.text,
+                              id,
+                              favSubjectController.text);
                           await DatabaseMethods()
                               .addStudent(studentInfo, id)
                               .then((value) {
@@ -209,6 +209,7 @@ class _StudentsState extends State<Students> {
                                 backgroundColor: Colors.red,
                                 textColor: Colors.white,
                                 fontSize: 16.0);
+                            Navigator.pushNamed(context, '/');
                           });
                         }
                       },
